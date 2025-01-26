@@ -1,0 +1,26 @@
+stages:
+  - build
+  - test
+  - deploy
+
+build:
+  stage: build
+  image: node:18-alpine
+  script:
+    - npm install
+    - npm run build  # Add a build step if necessary
+
+test:
+  stage: test
+  image: node:18-alpine
+  script:
+    - npm test  # Add your test commands here
+
+deploy:
+  stage: deploy
+  image: docker:latest
+  script:
+    - docker login -u <your-docker-hub-username> -p <your-docker-hub-password>
+    - docker build -t <your-docker-hub-username>/my-cicd-app .
+    - docker push <your-docker-hub-username>/my-cicd-app
+    # Add steps to deploy to your target environment (e.g., Kubernetes)
